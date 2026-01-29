@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L3思维数学 - 小学数学学习平台</title>
+       <style>
+        /* 全局样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+        }
+
+        /* 新增：返回主页按钮样式 */
+        .back-home {
+            position: fixed; /* 固定在页面顶部，滚动也不消失 */
+            top: 20px;
+            left: 20px;
+            z-index: 999; /* 确保在最上层 */
+            background-color: #ff6b6b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: background-color 0.3s;
+            /* 平板端适配：按钮尺寸放大，方便触屏点击 */
+            padding: 12px 24px;
+            font-size: 1.1rem;
+        }
+
+        .back-home:hover {
+            background-color: #ff5252;
+        }
+
+        /* 页面主体样式 */
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 头部样式 */
+        header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* 导航栏/功能区样式 */
+        .nav-section {
+            background-color: white;
+            padding: 15px 0;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .textbook-link {
+            display: inline-block;
+            background-color: #ff6b6b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .textbook-link:hover {
+            background-color: #ff5252;
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        /* 视频网格样式 */
+        .video-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            margin-bottom: 40px;
+        }
+
+        .video-grid {
+            /* 强制设置3列布局，确保3列10行 */
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        /* 视频卡片样式 */
+        .video-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 200px;
+            background-color: #e3f2fd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-icon {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #4facfe;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .video-thumbnail:hover .play-icon {
+            opacity: 1;
+        }
+
+        .video-info {
+            padding: 15px;
+        }
+
+        .video-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            /* 标题自动换行 */
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+
+        .video-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 8px 0;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-align: center;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .practice-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .practice-btn:hover {
+            background-color: #45a049;
+        }
+
+        .analysis-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .analysis-btn:hover {
+            background-color: #0b7dda;
+        }
+
+        /* 模态框样式（视频播放） */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 900px;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            color: white;
+            background-color: rgba(0,0,0,0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        /* 修改视频播放器为video标签，适配本地视频 */
+        .video-player {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 1200px) {
+            .video-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            .video-player {
+                height: 300px;
+            }
+            .nav-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-box {
+                max-width: 100%;
+            }
+        }
+
+        /* 页脚样式 */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+     <!-- 新增：返回主页按钮 - 固定在页面左上角 -->
+    <a href="../L3-L6.html" class="back-home">🏠 返回主页</a>
+ <!-- 页面头部 -->
+    <header>
+        <div class="header-container">
+            <h1>L3思维数学 - 小学数学趣味课堂</h1>
+            <p class="subtitle">让数学学习更有趣，思维训练更高效</p>
+        </div>
+    </header>
+
+    <!-- 导航/功能区 -->
+    <section class="nav-section">
+        <div class="nav-container">
+            <!-- 电子教材链接 -->
+            <a href="#" class="textbook-link" target="_blank">📚 下载电子教材</a>
+            
+            <!-- 搜索框 -->
+            <div class="search-box">
+                <input type="text" placeholder="搜索视频/练习题...">
+            </div>
+        </div>
+    </section>
+
+    <!-- 视频列表区域 -->
+    <section class="video-container">
+        <div class="video-grid" id="videoGrid">
+            <!-- 视频卡片会通过JS动态生成 -->
+        </div>
+    </section>
+
+    <!-- 视频播放模态框 -->
+    <div class="modal" id="videoModal">
+        <span class="close-modal" id="closeModal">&times;</span>
+        <div class="modal-content">
+            <!-- 替换为video标签播放本地视频 -->
+            <video class="video-player" id="localVideoPlayer" controls></video>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <p>© 2026 L3思维数学 - 小学数学学习平台 版权所有</p>
+    </footer>
+
+    <script>
+        // 1. 定义30个视频的详细信息
+        const videoList = [
+            { id: 1, title: "第1节:计算(一)整数加减法巧算", fileName: "1.mp4" },
+            { id: 2, title: "第2节:计算(二)，整数加减法巧算", fileName: "2.mp4" },
+            { id: 3, title: "第3节:枚举法(一)", fileName: "3.mp4" },
+            { id: 4, title: "第4节:枚举法(二)", fileName: "4.mp4" },
+            { id: 5, title: "第5节:数线段", fileName: "5.mp4" },
+            { id: 6, title: "第6节:和差问题", fileName: "6.mp4" },
+            { id: 7, title: "第7节:计算(三)整数乘除法巧算", fileName: "7.mp4" },
+            { id: 8, title: "第8节:计算(四)整数乘除法巧算", fileName: "8.mp4" },
+            { id: 9, title: "第9节:周长(一)", fileName: "9.mp4" },
+            { id: 10, title: "第10节:周长(二)", fileName: "10.mp4" },
+            { id: 11, title: "第11节:集合思想", fileName: "11.mp4" },
+            { id: 12, title: "第12节:和倍问题", fileName: "12.mp4" },
+            { id: 13, title: "第13节:差倍问题", fileName: "13.mp4" },
+            { id: 14, title: "第14节:概率初探", fileName: "14.mp4" },
+            { id: 15, title: "第15节:周期问题(一)", fileName: "15.mp4" },
+            { id: 16, title: "第16节:周期问题(二)", fileName: "16.mp4" },
+            { id: 17, title: "第17节:平均数(一)", fileName: "17.mp4" },
+            { id: 18, title: "第18节:平均数(二)", fileName: "18.mp4" },
+            { id: 19, title: "第19节:统筹优化(一）", fileName: "19.mp4" },
+            { id: 20, title: "第20节:统筹优化(二)", fileName: "20.mp4" },
+            { id: 21, title: "第21节:标数法", fileName: "21.mp4" },
+            { id: 22, title: "第22节:年龄问题（一）", fileName: "22.mp4" },
+            { id: 23, title: "第23节:年龄问题（二）", fileName: "23.mp4" },
+            { id: 24, title: "第24节:面积基础（一）", fileName: "24.mp4" },
+            { id: 25, title: "第25节:面积基础（二）", fileName: "25.mp4" },
+            { id: 26, title: "第26节:植树问题（一）", fileName: "26.mp4" },
+            { id: 27, title: "第27节:植树问题（二）", fileName: "27.mp4" },
+            { id: 28, title: "第28节:等差数列（一）", fileName: "28.mp4" },
+            { id: 29, title: "第29节:等差数列（二）", fileName: "29.mp4" },
+            { id: 30, title: "第30节:幻方问题", fileName: "30.mp4" }
+        ];
+
+        // 2. 获取DOM元素
+        const videoGrid = document.getElementById('videoGrid');
+        const videoModal = document.getElementById('videoModal');
+        const localVideoPlayer = document.getElementById('localVideoPlayer');
+        const closeModal = document.getElementById('closeModal');
+
+        // 3. 生成视频卡片
+        videoList.forEach(video => {
+            // 创建视频卡片元素
+            const videoCard = document.createElement('div');
+            videoCard.className = 'video-card';
+            
+            // 视频卡片内容
+            videoCard.innerHTML = `
+                <div class="video-thumbnail" data-video-file="${video.fileName}">
+                    <!-- 占位缩略图，实际项目中替换为真实视频封面 -->
+                    <img src="https://picsum.photos/seed/math${video.id}/600/400" alt="L3思维数学${video.title}">
+                    <div class="play-icon">▶</div>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">L3思维数学 - ${video.title}</h3>
+                    <div class="video-actions">
+                        <a href="\L3-习题集.pdf" class="action-btn practice-btn" target="_blank">📝 练习题</a>
+                        <a href="\L3解析版.pdf" class="action-btn practice-btn" target="_blank">🔍 解析</a>
+                    </div>
+                </div>
+            `;
+            
+            videoGrid.appendChild(videoCard);
+        });
+
+        // 4. 本地视频播放模态框功能
+        // 点击缩略图打开视频
+        document.querySelectorAll('.video-thumbnail').forEach(thumbnail => {
+            thumbnail.addEventListener('click', function() {
+                const videoFileName = this.getAttribute('data-video-file');
+                // 设置本地视频路径
+                localVideoPlayer.src = `./videos/${videoFileName}`;
+                // 自动播放（部分浏览器需要用户交互后才能自动播放）
+                localVideoPlayer.play().catch(err => {
+                    console.log('自动播放失败，请手动点击播放:', err);
+                });
+                videoModal.style.display = 'flex';
+                // 禁止页面滚动
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // 关闭模态框
+        closeModal.addEventListener('click', function() {
+            videoModal.style.display = 'none';
+            // 暂停视频并清空源
+            localVideoPlayer.pause();
+            localVideoPlayer.src = '';
+            document.body.style.overflow = ''; // 恢复页面滚动
+        });
+
+        // 点击模态框背景关闭
+        videoModal.addEventListener('click', function(e) {
+            if (e.target === videoModal) {
+                closeModal.click();
+            }
+        });
+
+        // 按ESC键关闭模态框
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && videoModal.style.display === 'flex') {
+                closeModal.click();
+            }
+        });
+    </script>
+</body>
+</html>
